@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Suite">
-  <test thread-count="5" name="Test">
+<suite name="Suite" parallel="false">
+  <test name="Chrome Test">
+  	<!-- Pass the browser value = chrome/firefox -->
+  	<parameter name="browser" value="chrome" />
     <classes>
-      <class name="automationFramework.FirstTestClass"/>
+      <class name="automationFramework.LoadConfigurations"/>
+      <class name="automationFramework.OpenApp"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
