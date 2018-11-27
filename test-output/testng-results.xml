@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Suite" duration-ms="2164" started-at="2018-11-27T18:51:43Z" finished-at="2018-11-27T18:51:45Z">
+    <groups>
+    </groups>
+    <test name="Test" duration-ms="2164" started-at="2018-11-27T18:51:43Z" finished-at="2018-11-27T18:51:45Z">
+      <class name="automationFramework.FirstTestClass">
+        <test-method status="PASS" signature="f()[pri:0, instance:automationFramework.FirstTestClass@4520ebad]" name="f" duration-ms="2143" started-at="2018-11-27T18:51:43Z" finished-at="2018-11-27T18:51:45Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- f -->
+      </class> <!-- automationFramework.FirstTestClass -->
+    </test> <!-- Test -->
+  </suite> <!-- Suite -->
+</testng-results>
