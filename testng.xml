@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite" parallel="false">
-  <test name="Chrome Test">
+  <test name="Chrome Test" preserve-order="true">
   	<!-- Pass the browser value = chrome/firefox -->
   	<parameter name="browser" value="chrome" />
+  	<parameter name="homeUrl" value="https://www-alt.noon.com/uae-en/" />
+  	<parameter name="signupEmail" value="avi.test@noon.com" />
+  	<parameter name="searchKeyword" value="munch" />
     <classes>
-      <class name="automationFramework.LoadConfigurations"/>
-      <class name="automationFramework.OpenApp"/>
+      <class name="automationFramework.LaunchApp"/>
+      <class name="automationFramework.Signup"/>
+      <!-- <class name="automationFramework.Login"/> -->
+      <class name="automationFramework.SearchProduct"/>
+      <class name="automationFramework.AddToCart"/>
+      <class name="automationFramework.ProceedToCheckout"/>
+      <class name="automationFramework.SaveAndSelectAddress"/>
+      <class name="automationFramework.PlaceAndVerifyOrder"/>
+      <class name="automationFramework.Logout"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
