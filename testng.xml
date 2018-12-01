@@ -8,15 +8,15 @@
   	<parameter name="signupEmail" value="avi.test@noon.com" />
   	<parameter name="searchKeyword" value="munch" />
     <classes>
-      <class name="automationFramework.LaunchApp"/>
-      <class name="automationFramework.Signup"/>
-      <!-- <class name="automationFramework.Login"/> -->
-      <class name="automationFramework.SearchProduct"/>
-      <class name="automationFramework.AddToCart"/>
-      <class name="automationFramework.ProceedToCheckout"/>
-      <class name="automationFramework.SaveAndSelectAddress"/>
-      <class name="automationFramework.PlaceAndVerifyOrder"/>
-      <class name="automationFramework.Logout"/>
+      <class name="test.LaunchApp"/>
+      <class name="test.Signup"/>
+      <!-- <class name="test.Login"/> -->
+      <class name="test.SearchProduct"/>
+      <class name="test.AddToCart"/>
+      <class name="test.ProceedToCheckout"/>
+      <class name="test.SaveAndSelectAddress"/>
+      <class name="test.PlaceAndVerifyOrder"/>
+      <class name="test.Logout"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
