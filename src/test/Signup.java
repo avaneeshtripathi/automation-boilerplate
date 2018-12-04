@@ -1,6 +1,5 @@
 package test;
 
-import java.util.Date;
 import org.openqa.selenium.*;
 import org.testng.annotations.*;
 import helper.*;
@@ -17,23 +16,16 @@ public class Signup {
   }
   
   @Test(priority=12)
-  @Parameters("signupEmail")
-  public void userSignup(String signupEmail) {
+  public void userSignup() {
+	  String userEmail = Utils.getUniqueEmail(Info.baseEmail);
+	  String userPassword = Info.basePassword;
 	  
-	  // SOME FUN STUFF TO GENERATE UNIQUE EMAIL AND PASSWORD
-	  int index = signupEmail.indexOf('@');
-	  Date date = new Date();
-	  StringBuilder userEmail = new StringBuilder(signupEmail);
-	  userEmail.insert(index, "+" + date.getTime());
-	  String userPassword = Long.toString(date.getTime());
-	  // DO NOT COMMENT ABOUT ANYTHING HERE
-	 
 	  Utils.logger("Initiating Signup");
 
 	  BrowserActions.findElement(By.xpath("//input[@name='email'][@type='text']")).sendKeys(userEmail);
 	  BrowserActions.findElement(By.xpath("//input[@name='email'][@type='password']")).sendKeys(userPassword);
-	  BrowserActions.findElement(By.name("firstName")).sendKeys("Test");
-	  BrowserActions.findElement(By.name("lastName")).sendKeys("Name");
+	  BrowserActions.findElement(By.name("firstName")).sendKeys(Info.baseFirstName);
+	  BrowserActions.findElement(By.name("lastName")).sendKeys(Info.baseLastName);
 	  BrowserActions.findElement(By.cssSelector("#formContainer > button")).click();
 	  
 	  WebElement userInfoBox = BrowserActions.waitForElement(By.cssSelector(".userIconContainer .userWrapper .userName"));
@@ -44,7 +36,7 @@ public class Signup {
 		  Utils.logger("Hala " + userName + "! Signup successfull.");
 		  
 		  Info.setUserName(userName);
-		  Info.setEmail(userEmail.toString());
+		  Info.setEmail(userEmail);
 		  Info.setPassword(userPassword);
 	  } else {
 		  Utils.logger("Signup unsuccessfull.");

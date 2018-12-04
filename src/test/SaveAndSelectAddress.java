@@ -28,10 +28,9 @@ public class SaveAndSelectAddress {
 		Utils.logger("Initiating address details submission");
 		
 		BrowserActions.findElement(By.name("phone")).sendKeys("4242424");
-		BrowserActions.findElement(By.name("firstName")).sendKeys("Avaneesh");
-		BrowserActions.findElement(By.name("lastName")).sendKeys("Tripathi");
-		BrowserActions.findElement(By.name("address")).sendKeys("Noon, Level 7, Boulevard Plaza, Downtown");
-		BrowserActions.findElement(By.name("lastName")).sendKeys("Tripathi");
+		BrowserActions.findElement(By.name("firstName")).sendKeys("Test");
+		BrowserActions.findElement(By.name("lastName")).sendKeys("Order");
+		BrowserActions.findElement(By.name("address")).sendKeys("Do Not,  Deliver To This, Address");
 		BrowserActions.findElement(By.className("addressLabelRadioLabel")).click();
 		BrowserActions.findElement(By.cssSelector(".footerButtonWrapper button")).click();
 		BrowserActions.waitForElement(By.xpath("//button [contains(.,'Continue')]")).click();

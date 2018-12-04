@@ -4,13 +4,10 @@
   <test name="Chrome Test" preserve-order="true">
   	<!-- Pass the browser value = chrome/firefox -->
   	<parameter name="browser" value="chrome" />
-  	<parameter name="homeUrl" value="https://www-alt.noon.com/uae-en/" />
-  	<parameter name="signupEmail" value="avi.test@noon.com" />
-  	<parameter name="searchKeyword" value="munch" />
     <classes>
       <class name="test.LaunchApp"/>
-      <class name="test.Signup"/>
-      <!-- <class name="test.Login"/> -->
+      <!-- <class name="test.Signup"/> -->
+      <class name="test.Login"/>
       <class name="test.SearchProduct"/>
       <class name="test.AddToCart"/>
       <class name="test.ProceedToCheckout"/>

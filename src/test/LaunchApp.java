@@ -5,10 +5,10 @@ import helper.*;
 
 public class LaunchApp {
 	@Test(priority=1)
-	@Parameters({"homeUrl", "browser"})
-	public void LaunchBrowser(String homeUrl, String browser) {
-		Utils.logger("Launching Application at: " + homeUrl);
+	@Parameters("browser")
+	public void LaunchBrowser(String browser) {
+		Utils.logger("Launching Application at: " + Info.baseAppUrl);
 		BrowserActions.initialiseWebDriver(browser);
-		BrowserActions.openUrl(homeUrl);
+		BrowserActions.openUrl(Info.baseAppUrl);
 	}
 }

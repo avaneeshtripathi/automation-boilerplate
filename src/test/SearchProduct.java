@@ -7,12 +7,11 @@ import helper.*;
 
 public class SearchProduct {
 	@Test(priority=31)
-	@Parameters("searchKeyword")
-	public void searchForProduct(String searchKeyword) {
-		Utils.logger("Searchning Keyword: " + searchKeyword);
+	public void searchForProduct() {
+		Utils.logger("Searchning Keyword: " + Info.searchKeyword);
 		
 		WebElement searchField = BrowserActions.findElement(By.id("searchBar"));
-		searchField.sendKeys(searchKeyword);
+		searchField.sendKeys(Info.searchKeyword);
 		searchField.sendKeys(Keys.ENTER);
 		
 		Utils.logger("Searched successfully");

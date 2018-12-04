@@ -6,11 +6,10 @@ import helper.*;
 
 public class Logout {
 	@Test(priority=81)
-	@Parameters("homeUrl")
-	public void logoutUser(String homeUrl) {
+	public void logoutUser() {
 		Utils.logger("Navigating to home page");
 		
-		BrowserActions.openUrl(homeUrl);
+		BrowserActions.openUrl(Info.baseAppUrl);
 		BrowserActions.waitForElement(By.cssSelector(".userIconContainer .userWrapper .userName"));
 
 		Utils.logger("Navigated successfully");
@@ -22,7 +21,7 @@ public class Logout {
 		
 		Utils.logger("Logged out successfully");
 		Utils.logger("Signing off");
-		Utils.logger("Bye " + Info.getUserName() + " :)");
+		Utils.logger("Bye " + Info.userName + " :)");
 		
 		BrowserActions.closeSession();
 	}

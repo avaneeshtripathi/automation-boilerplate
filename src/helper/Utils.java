@@ -1,5 +1,7 @@
 package helper;
 
+import java.util.Date;
+
 public class Utils {
 	public static void logger(String text) {
 		System.out.println(text);
@@ -16,5 +18,13 @@ public class Utils {
 		} catch (InterruptedException e) {
 			Utils.logger("Sleep failed");
 		}
+	}
+	
+	public static String getUniqueEmail(String baseEmail) {
+		  int index = baseEmail.indexOf('@');
+		  Date date = new Date();
+		  StringBuilder userEmail = new StringBuilder(Info.baseEmail);
+		  userEmail.insert(index, "+" + date.getTime());
+		  return userEmail.toString();
 	}
 }
