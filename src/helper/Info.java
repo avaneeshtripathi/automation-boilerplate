@@ -8,6 +8,7 @@ public class Info {
 	public static String baseLastName = "Account";
 	public static String baseAppUrl = "https://www.noonstg.com/uae-en/";
 	public static String accountsAppUrl = "https://account.noonstg.com/uae-en/";
+	public static boolean newUser = false;
 
 	// CARD DETAILS
 	public static String ccNumber = "4242424242424242";

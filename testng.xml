@@ -6,8 +6,7 @@
   	<parameter name="browser" value="chrome" />
     <classes>
       <class name="test.LaunchApp"/>
-      <!-- <class name="test.Signup"/> -->
-      <class name="test.Login"/>
+      <class name="test.Authenticate"/>
       <class name="test.SearchProduct"/>
       <class name="test.AddToCart"/>
       <class name="test.ProceedToCheckout"/>
