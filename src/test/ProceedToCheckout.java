@@ -20,8 +20,9 @@ public class ProceedToCheckout {
 		Utils.logger("Navigating for address selection");
 		
 		BrowserActions.findElement(By.xpath("//button [contains(.,'Checkout Now')]")).click();
-		BrowserActions.waitForElement(By.cssSelector(".mapWrapper"));
-
+		BrowserActions.waitForOneOfElements(By.cssSelector(".mapWrapper"), By.cssSelector(".addNewAddressCtr .addNewAddress"));
+		Info.setPreSavedAddresses(BrowserActions.findElement(By.cssSelector(".mapWrapper")) == null);
+		
 		Utils.logger("Navigated to address selection successfully");
 	}
 }

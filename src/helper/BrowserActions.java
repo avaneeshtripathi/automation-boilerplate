@@ -13,10 +13,10 @@ import helper.Utils;
 public class BrowserActions {
 	private static WebDriver driver = null;
 	
-	public static void initialiseWebDriver(String browser) {
+	private static void initialiseWebDriver() {
 		if (driver == null) {
 			Utils.logger("Initialising Web Driver");
-			if (browser.equalsIgnoreCase("firefox")) {
+			if (Info.browser.equalsIgnoreCase("firefox")) {
 				System.setProperty("webdriver.gecko.driver", "/Users/atripathi/avi/automation-boilerplate/drivers/geckodriver");
 				driver = new FirefoxDriver();
 			} else {
@@ -27,8 +27,21 @@ public class BrowserActions {
 		}
 	}
 	
+	public static void openUrl(String url){
+		initialiseWebDriver();
+		driver.get(url);
+	}
+	
+	public static void closeSession(){
+		driver.close();
+	}
+	
 	public static WebElement findElement(By selector) {
-		return driver.findElement(selector);
+		try {
+			return driver.findElement(selector);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	public static List<WebElement> findElements(By selector) {
@@ -38,6 +51,11 @@ public class BrowserActions {
 	public static WebElement waitForElement(By selector) {
 		return (new WebDriverWait(driver, 10))
 				.until(ExpectedConditions.presenceOfElementLocated(selector));
+	}
+	
+	public static boolean waitForOneOfElements(By selector1, By selector2) {
+		return (new WebDriverWait(driver, 10))
+				.until(ExpectedConditions.or(ExpectedConditions.presenceOfElementLocated(selector1), ExpectedConditions.presenceOfElementLocated(selector2)));
 	}
 	
 	public static WebElement waitForElementClickable(By selector) {
@@ -54,13 +72,5 @@ public class BrowserActions {
 		WebElement element = driver.findElement(selector);
 		Actions action = new Actions(driver);
 		action.moveToElement(element).moveByOffset(x, y).click().perform();
-	}
-	
-	public static void openUrl(String url){
-		driver.get(url);
-	}
-	
-	public static void closeSession(){
-		driver.close();
 	}
 }

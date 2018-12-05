@@ -13,7 +13,7 @@ public class Authenticate {
 	public void navigateToAuthenticate() {
 		Utils.logger("Navigating for authentication");
 
-		if (Info.newUser) {
+		if (Info.registerUser) {
 			BrowserActions.findElement(By.cssSelector(".userIconContainer .userWrapper")).click();
 			BrowserActions.findElement(By.cssSelector(".userIconContainer .linkTextSignup")).click();
 		} else {
@@ -26,7 +26,7 @@ public class Authenticate {
 	
 	@Test(priority=12)
 	public void authenticate() {
-		if (Info.newUser) {
+		if (Info.registerUser) {
 			String userEmail = Utils.getUniqueEmail(Info.baseEmail);
 			String userPassword = Info.basePassword;
 

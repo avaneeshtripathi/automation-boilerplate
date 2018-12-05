@@ -7,27 +7,34 @@ import helper.*;
 public class PlaceAndVerifyOrder {
 	private static String orderNr = "";
 
-//	@Test(priority=71)
-//	public void payByCard() {
-//		Utils.logger("Initiating payment by card");
-//		
-//		BrowserActions.waitForElement(By.id("ccNumber")).sendKeys(Info.ccNumber);
-//		BrowserActions.findElement(By.name("cardExpiryMonth")).sendKeys(Info.cardExpiryMonth);
-//		BrowserActions.findElement(By.name("cardExpiryYear")).sendKeys(Info.cardExpiryYear);
-//		BrowserActions.findElement(By.cssSelector(".inputWrapper.withTooltip input.neutral")).sendKeys(Info.cardCvv);
-//		
-//		Utils.logger("Submitting card details");
-//		
-//		Utils.waitForSeconds(2);
-//		BrowserActions.waitForElementClickable(By.cssSelector(".placeOrderCtaContainer button")).click();
-//		BrowserActions.waitForElement(By.cssSelector(".orderItemsWrapper .itemContainer"));
-//		orderNr = BrowserActions.findElement(By.cssSelector(".successPage .coreOrderDetails")).getText().replace("Order ", "");
-//		
-//		Utils.logger("Order: " + orderNr + " placed successfully.");
-//	}
-	
 	@Test(priority=71)
-	public void payByCash() {
+	public void handlePayment () {
+		if(Info.payByCard) {
+			payByCard();
+		} else {
+			payByCash();
+		}
+	}
+	
+	private static void payByCard() {
+		Utils.logger("Initiating payment by card");
+		
+		BrowserActions.waitForElement(By.id("ccNumber")).sendKeys(Info.ccNumber);
+		BrowserActions.findElement(By.name("cardExpiryMonth")).sendKeys(Info.cardExpiryMonth);
+		BrowserActions.findElement(By.name("cardExpiryYear")).sendKeys(Info.cardExpiryYear);
+		BrowserActions.findElement(By.cssSelector(".inputWrapper.withTooltip input.neutral")).sendKeys(Info.cardCvv);
+		
+		Utils.logger("Submitting card details");
+		
+		Utils.waitForSeconds(2);
+		BrowserActions.waitForElementClickable(By.cssSelector(".placeOrderCtaContainer button")).click();
+		BrowserActions.waitForElement(By.cssSelector(".orderItemsWrapper .itemContainer"));
+		orderNr = BrowserActions.findElement(By.cssSelector(".successPage .coreOrderDetails")).getText().replace("Order ", "");
+		
+		Utils.logger("Order: " + orderNr + " placed successfully.");
+	}
+	
+	private static void payByCash() {
 		Utils.logger("Initiating payment by cash");
 		
 		WebElement codButton = BrowserActions.waitForElement(By.cssSelector(".codOption label.buttonPadding"));
@@ -35,6 +42,9 @@ public class PlaceAndVerifyOrder {
 		Utils.waitForSeconds(2);
 		
 		BrowserActions.moveClickElement(codButton);
+		
+		Utils.waitForSeconds(1);
+		
 		BrowserActions.waitForElementClickable(By.cssSelector(".placeOrderCtaContainer button")).click();
 		
 		Utils.logger("Placing order by cash");
