@@ -1,6 +1,8 @@
 package helper;
 
-import java.util.List;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -32,12 +34,15 @@ public class BrowserActions {
 		Utils.logger("Reading default data from Excel sheet");
 		ExcelUtils.readDefaultData();
 		Utils.logger("Launching in " + browser + " at: " + Defaults.App.get("baseAppUrl"));
+		
+		initialiseWebDriver(browser);
 		openUrl(browser, Defaults.App.get("baseAppUrl"));
+//		getAuthCookieData(browser);
 	}
 	
 	public static void openUrl(String browser, String url){
-		initialiseWebDriver(browser);
 		driver.get(url);
+		setAuthCookieData(); // ENABLE THIS TO USE COOKIES FOR THE THINGS BUT THEY FIRST NEED TO BE SET USING getAuthCookieData()
 	}
 	
 	public static void closeSession(){
@@ -106,5 +111,92 @@ public class BrowserActions {
 		WebElement element = driver.findElement(selector);
 		Actions action = new Actions(driver);
 		action.moveToElement(element).moveByOffset(x, y).click().perform();
+	}
+	
+	// PRIVATE UTILITY METHODS TO GET COOKIE FROM ONE SESSIO  TO ANOTHER
+	// USE GET AUTH COOKIE DATA TO SET THE COOKIE FROM FILE TO SESSION
+	// USE SET AUTH COOKIE DATA TO STORE THE COOKIES TO A FILE
+	private static void getAuthCookieData(String browser) {
+		openUrl(browser, "https://misc-team.noonstg.team/com-auth");
+		BrowserActions.waitForElement(By.id("identifierId"));
+		BrowserActions.input(By.id("identifierId"), "xyz@noon.com"); // OFFICIAL EMAIL ID
+		BrowserActions.click(By.id("identifierNext"));
+		BrowserActions.waitForElement(By.id("user_email"));
+		BrowserActions.input(By.id("user_email"), "xyz@noon.com"); // OFFICIAL EMAIL ID
+		BrowserActions.input(By.id("user_password"), "xyzxyzxyz123"); // ONE LOGIN PASSWORD
+		BrowserActions.click(By.id("user_submit"));
+		Utils.logger("Start wait for 100 seconds. Expecting you to login successfully in 100 seconds");
+		Utils.waitForSeconds(100);
+		Utils.logger("Waited for 100 seconds. I'll read the cookies and save them to Cookies.txt now");
+		File file = new File("Cookies.txt");
+		
+		try	{	  
+            // Delete old file if exists
+			file.delete();		
+            file.createNewFile();			
+            FileWriter fileWrite = new FileWriter(file);							
+            BufferedWriter Bwrite = new BufferedWriter(fileWrite);							
+            // loop for getting the cookie information 		
+            	
+            // loop for getting the cookie information 		
+            for(Cookie ck : driver.manage().getCookies())							
+            {
+                Bwrite.write((ck.getName()+";"+ck.getValue()+";"+ck.getDomain()+";"+ck.getPath()+";"+ck.getExpiry()+";"+ck.isSecure()));																									
+                Bwrite.newLine();             
+            }			
+            Bwrite.close();			
+            fileWrite.close();
+    		Utils.logger("Cookies recorded successfully.");
+        } catch(Exception ex) {		
+            ex.printStackTrace();			
+        }
+	}
+	
+	private static void setAuthCookieData() {
+		try {
+			Utils.waitForSeconds(2);
+	        File file = new File("Cookies.txt");							
+	        FileReader fileReader = new FileReader(file);							
+	        BufferedReader Buffreader = new BufferedReader(fileReader);							
+	        String strline;			
+	        while((strline=Buffreader.readLine())!=null){									
+	        	StringTokenizer token = new StringTokenizer(strline,";");
+	        	while(token.hasMoreTokens()){
+			        String name = token.nextToken();					
+			        String value = token.nextToken();				
+			        String domain = token.nextToken();					
+			        String path = token.nextToken();					
+			        Date expiry = null;
+			        
+					if(value.contains(".com")) {
+						token.nextToken();
+						continue;
+					}
+			        
+					String val;			
+			        if(!(val=token.nextToken()).equals("null")){
+			        	Date parsed;
+			        	try {
+			        	    SimpleDateFormat format =
+			        	        new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+			        	    parsed = format.parse(val);
+			        	}
+			        	catch(Exception pe) {
+			        	    throw new IllegalArgumentException(pe);
+			        	}
+			        	expiry = parsed;					
+			        }		
+			        Boolean isSecure = new Boolean(token.nextToken()).								
+			        		booleanValue();		
+			        Cookie ck = new Cookie(name,value,domain,path,expiry,isSecure);
+			        driver.manage().addCookie(ck); // This will add the stored cookie to your current session					
+	        	}		
+	        }
+	        Buffreader.close();
+			Defaults.setPreAuthorised();
+	        driver.navigate().refresh();
+        } catch(Exception ex){	
+	        ex.printStackTrace();			
+        }
 	}
 }
