@@ -4,7 +4,7 @@
   <test name="Test" preserve-order="true">
   	<parameter name="browser" value="chrome"/>
     <classes>
-      <class name="test.Checkout"/>
+      <class name="test.Login"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

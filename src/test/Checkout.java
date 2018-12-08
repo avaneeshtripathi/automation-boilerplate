@@ -51,7 +51,7 @@ public class Checkout {
 	public void checkoutWithCart() {
 		Utils.logger("Navigating for address selection");
 		
-		BrowserActions.click(CART_CHECKOUT_BUTTON);
+		BrowserActions.clickWithAction(BrowserActions.waitForElement(CART_CHECKOUT_BUTTON));
 		BrowserActions.waitForOneOfElements(MAP_WRAPPER, ADDRESS_CARD_WRAPPER);
 		Defaults.setPreSavedAddresses(BrowserActions.checkElementExists(ADDRESS_CARD_WRAPPER));
 		
