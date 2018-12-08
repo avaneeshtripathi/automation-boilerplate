@@ -2,15 +2,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite" parallel="false">
   <test name="Test" preserve-order="true">
+  	<parameter name="browser" value="chrome"/>
     <classes>
-      <class name="test.LaunchApp"/>
-      <class name="test.Authenticate"/>
-      <class name="test.SearchProduct"/>
-      <class name="test.AddToCart"/>
-      <class name="test.ProceedToCheckout"/>
-      <class name="test.SaveAndSelectAddress"/>
-      <class name="test.PlaceAndVerifyOrder"/>
-      <class name="test.Logout"/>
+      <class name="test.Checkout"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

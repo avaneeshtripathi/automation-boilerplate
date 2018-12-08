@@ -1,42 +1,51 @@
 package test;
 
-import java.util.List;
 import org.openqa.selenium.*;
 import org.testng.annotations.*;
 import helper.*;
 
 public class SearchProduct {
-	@Test(priority=31)
-	public void searchForProduct() {
-		Utils.logger("Searchning Keyword: " + Info.searchKeyword);
+	private static By HEADER_SEARCH_INPUT = By.id("searchBar");
+	private static By PRODUCT_CARD = By.cssSelector(".productList .productContainer .product");
+	private static By PRODUCT_DETAIL_WRAPPER = By.cssSelector(".coreProductDetails .primaryDetails");
+	
+    @BeforeTest
+    @Parameters("browser")
+    public void beforeTest(String browser) {
+        BrowserActions.launchApp(browser);
+    }
+    
+	@Test(priority=1)
+	public static void searchForProduct() {
+		Utils.logger("Searching Keyword: " + "munch");
 		
-		WebElement searchField = BrowserActions.findElement(By.id("searchBar"));
-		searchField.sendKeys(Info.searchKeyword);
-		searchField.sendKeys(Keys.ENTER);
+		BrowserActions.input(HEADER_SEARCH_INPUT, "munch");
+		BrowserActions.submit(HEADER_SEARCH_INPUT);
 		
 		Utils.logger("Searched successfully");
 	}
 	
 
-	@Test(priority=32)
-	public void navigateToProduct() {
+	@Test(priority=2)
+	public static void navigateToProduct() {
 		Utils.logger("Awaiting product list");
 		
-		BrowserActions.waitForElement(By.cssSelector(".productList .productContainer .product"));
-		List<WebElement> productList = BrowserActions.findElements(By.cssSelector(".productList .productContainer .product"));
+		BrowserActions.waitForElement(PRODUCT_CARD);
 		
 		Utils.logger("Product list loaded successfully");
 		
-		int randomProductIndex = Utils.getRandomUpto(productList.size());
-		WebElement productCard = productList.get(randomProductIndex);
-		BrowserActions.moveClickElement(productCard);
-		String productDetails = productCard.getText();
+		BrowserActions.clickRandomInList(PRODUCT_CARD);
 		
-		Utils.logger("Navigating to randomly selected product:\n" + productDetails);
+		Utils.logger("Navigating to randomly selected product");
 		Utils.logger("Awaiting product detail page");
 		
-		BrowserActions.waitForElement(By.cssSelector(".coreProductDetails .primaryDetails"));
+		BrowserActions.waitForElement(PRODUCT_DETAIL_WRAPPER);
 		
-		Utils.logger("Navigated successfully to: \n" + productDetails);
+		Utils.logger("Navigated successfully");
 	}
+	
+    @AfterTest
+    public void afterTest() {
+        BrowserActions.closeSession();
+    }
 }

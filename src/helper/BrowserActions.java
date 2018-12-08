@@ -13,22 +13,30 @@ import helper.Utils;
 public class BrowserActions {
 	private static WebDriver driver = null;
 	
-	private static void initialiseWebDriver() {
+	// BROWSER UTILITIES
+	private static void initialiseWebDriver(String browser) {
 		if (driver == null) {
 			Utils.logger("Initialising Web Driver");
-			if (Info.browser.equalsIgnoreCase("firefox")) {
-				System.setProperty("webdriver.gecko.driver", "/Users/atripathi/avi/automation-boilerplate/drivers/geckodriver");
+			if (browser.equalsIgnoreCase("firefox")) {
+				System.setProperty("webdriver.gecko.driver", "drivers/geckodriver");
 				driver = new FirefoxDriver();
 			} else {
-				System.setProperty("webdriver.chrome.driver", "/Users/atripathi/avi/automation-boilerplate/drivers/chromedriver");
+				System.setProperty("webdriver.chrome.driver", "drivers/chromedriver");
 				driver = new ChromeDriver();
 			}
 			Utils.logger("Web Driver Initialised");
 		}
 	}
 	
-	public static void openUrl(String url){
-		initialiseWebDriver();
+	public static void launchApp(String browser) {
+		Utils.logger("Reading default data from Excel sheet");
+		ExcelUtils.readDefaultData();
+		Utils.logger("Launching in " + browser + " at: " + Defaults.App.get("baseAppUrl"));
+		openUrl(browser, Defaults.App.get("baseAppUrl"));
+	}
+	
+	public static void openUrl(String browser, String url){
+		initialiseWebDriver(browser);
 		driver.get(url);
 	}
 	
@@ -36,16 +44,21 @@ public class BrowserActions {
 		driver.close();
 	}
 	
-	public static WebElement findElement(By selector) {
-		try {
-			return driver.findElement(selector);
-		} catch (Exception e) {
-			return null;
-		}
+	public static String getCurrentUrl() {
+		return driver.getCurrentUrl();
 	}
 	
-	public static List<WebElement> findElements(By selector) {
-		return driver.findElements(selector);
+	// BROWSER ACTIONS
+	public static void click(By selector){
+		driver.findElement(selector).click();
+	}
+	
+	public static void input(By selector, String data){
+		driver.findElement(selector).sendKeys(data);
+	}
+	
+	public static void submit(By selector){
+		driver.findElement(selector).sendKeys(Keys.ENTER);
 	}
 	
 	public static WebElement waitForElement(By selector) {
@@ -63,12 +76,33 @@ public class BrowserActions {
 				.until(ExpectedConditions.elementToBeClickable(selector));
 	}
 	
-	public static void moveClickElement(WebElement element){
+	public static String getTextContent(By selector){
+		return waitForElement(selector).getText();
+	}
+	
+	public static WebElement clickRandomInList(By selector){
+		List<WebElement> elementList = driver.findElements(selector);
+		int randomProductIndex = Utils.getRandomUpto(elementList.size());
+		WebElement randomElement = elementList.get(randomProductIndex);
+		clickWithAction(randomElement);
+		return randomElement;
+	}
+	
+	public static void clickWithAction(WebElement element){
 		Actions actions = new Actions(driver);
 		actions.moveToElement(element).click().perform();
 	}
 	
-	public static void moveClickElementByOffset(By selector, int x, int y){
+	public static boolean checkElementExists(By selector){
+		try {
+			driver.findElement(selector);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public static void clickByOffset(By selector, int x, int y){
 		WebElement element = driver.findElement(selector);
 		Actions action = new Actions(driver);
 		action.moveToElement(element).moveByOffset(x, y).click().perform();
