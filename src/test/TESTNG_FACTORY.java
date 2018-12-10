@@ -104,9 +104,6 @@ public class TESTNG_FACTORY {
    
     //Main Method
     public static void main (String args[]) {
-		ExcelUtils.setExcelFile();
-		ExcelUtils.setDefaultData();
-		
     	TESTNG_FACTORY tf = new TESTNG_FACTORY();
     	tf.runTestNGTest("chrome");
     }

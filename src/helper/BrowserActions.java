@@ -35,8 +35,9 @@ public class BrowserActions {
 	}
 	
 	public static void launchApp() {
-		String browser = Defaults.get("app", "browser");
 		Utils.logger("Reading default data from Excel sheet");
+		ExcelUtils.setDefaultData();
+		String browser = Defaults.get("app", "browser");
 		Utils.logger("Launching in " + browser + " at: " + Defaults.get("app", "baseAppUrl"));
 		
 		initialiseWebDriver(browser);
@@ -94,6 +95,11 @@ public class BrowserActions {
 		WebElement randomElement = elementList.get(randomProductIndex);
 		clickWithAction(randomElement);
 		return randomElement;
+	}
+	
+	public static int getListItemCount(By selector){
+		List<WebElement> elementList = driver.findElements(selector);
+		return elementList.size();
 	}
 	
 	public static void clickWithAction(WebElement element){

@@ -17,14 +17,17 @@ public class ExcelUtils {
     private static XSSFWorkbook ExcelWBook;
 	private static XSSFSheet DefaultDataSheet;
 	private static XSSFSheet TestDataSheet;
+	
+	private static boolean excelFileLoaded = false;
     
-    public static void setExcelFile() {
+    private static void setExcelFile() {
     	try {
     		FileInputStream ExcelFile = new FileInputStream(filePath);
     		
     		ExcelWBook = new XSSFWorkbook(ExcelFile);
     		DefaultDataSheet = ExcelWBook.getSheet(defaultsSheetName);
     		TestDataSheet = ExcelWBook.getSheet(testsSheetName);
+    		excelFileLoaded = true;
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -82,7 +85,9 @@ public class ExcelUtils {
     }
     
     public static List<LinkedHashMap<String, String>> getTestCaseData(int rowIndex) {
-    	System.out.println(TestDataSheet);
+    	if (!excelFileLoaded) {
+    		setExcelFile();
+    	}
     	XSSFRow headerRow = TestDataSheet.getRow(rowIndex);
     	System.out.println(headerRow);
     	List<String> headers = getHeaderList(headerRow);
@@ -110,6 +115,9 @@ public class ExcelUtils {
     }
     
     public static void setDefaultData() {
+    	if (!excelFileLoaded) {
+    		setExcelFile();
+    	}
 		Defaults.set("user", ExcelUtils.getDefaultData("userDetails", 0));
 		Defaults.set("card", ExcelUtils.getDefaultData("cardDetails", 0));
 		Defaults.set("app", ExcelUtils.getDefaultData("appDetails", 0));
