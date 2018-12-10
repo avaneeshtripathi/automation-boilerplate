@@ -36,7 +36,6 @@ public class BrowserActions {
 	
 	public static void launchApp(String browser) {
 		Utils.logger("Reading default data from Excel sheet");
-		ExcelUtils.readDefaultData();
 		Utils.logger("Launching in " + browser + " at: " + Defaults.App.get("baseAppUrl"));
 		
 		initialiseWebDriver(browser);
@@ -70,17 +69,17 @@ public class BrowserActions {
 	}
 	
 	public static WebElement waitForElement(By selector) {
-		return (new WebDriverWait(driver, 10))
+		return (new WebDriverWait(driver, 20))
 				.until(ExpectedConditions.presenceOfElementLocated(selector));
 	}
 	
 	public static boolean waitForOneOfElements(By selector1, By selector2) {
-		return (new WebDriverWait(driver, 10))
+		return (new WebDriverWait(driver, 20))
 				.until(ExpectedConditions.or(ExpectedConditions.presenceOfElementLocated(selector1), ExpectedConditions.presenceOfElementLocated(selector2)));
 	}
 	
 	public static WebElement waitForElementClickable(By selector) {
-		return (new WebDriverWait(driver, 10))
+		return (new WebDriverWait(driver, 20))
 				.until(ExpectedConditions.elementToBeClickable(selector));
 	}
 	

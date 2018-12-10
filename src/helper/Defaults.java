@@ -7,10 +7,6 @@ public class Defaults {
 	public static LinkedHashMap<String, String> Card;
 	public static LinkedHashMap<String, String> App;
 	public static boolean preSavedAddresses = false;
-	public static boolean addNewAddress = true;
-	public static String searchKeyword = "munch";
-	public static String mapRegion = "downtown";
-	public static boolean payByCard = true;
 	
 	public static void set(String name, LinkedHashMap<String, String> data) {
 		switch(name) {

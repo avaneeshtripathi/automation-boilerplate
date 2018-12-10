@@ -36,11 +36,15 @@ public class Checkout {
 	private static String orderNr = "";
 
 	@BeforeTest
-    @Parameters("browser")
-    public void beforeTest(String browser) {
+    @Parameters({"browser", "authentication", "searchKeyword"})
+    public void beforeTest(String browser, String authentication, String searchKeyword) {
         BrowserActions.launchApp(browser);
-        Login.authenticate();
-    	SearchProduct.navigateToProduct();
+        if (authentication.equalsIgnoreCase("login")) {
+            Login.authenticate();
+        } else {
+        	Signup.authenticate();
+        }
+    	SearchProduct.navigateToProduct(searchKeyword);
     	AddToCart.goToCart();
     }
     
@@ -56,16 +60,17 @@ public class Checkout {
 	}
     
 	@Test(priority=2)
-	public void handleAddressSelection() {
+    @Parameters({"addAddress", "mapRegion"})
+	public void handleAddressSelection(String addAddress, String mapRegion) {
 		Utils.waitForSeconds(1);
 		
 		if (Defaults.preSavedAddresses) {
 			Utils.logger("Previously saved addresses available");
-			if (Defaults.addNewAddress) {
+			if (addAddress.equalsIgnoreCase("yes")) {
 				Utils.logger("Initiating to add a new address");
 				
 				BrowserActions.click(ADD_ADDRESS_CARD);
-				mapSelection();
+				mapSelection(mapRegion);
 				saveAddressDetails();
 			} else {
 				Utils.logger("Selecting previously saved address");
@@ -79,14 +84,15 @@ public class Checkout {
 		} else {
 			Utils.logger("No previously saved addresses found");
 
-			mapSelection();
+			mapSelection(mapRegion);
 			saveAddressDetails();
 		}
 	}
 	
 	@Test(priority=3)
-	public void handlePayment () {
-		if(Defaults.payByCard) {
+    @Parameters("payment")
+	public void handlePayment (String payment) {
+		if(payment.equalsIgnoreCase("card")) {
 			payByCard();
 		} else {
 			payByCash();
@@ -117,7 +123,7 @@ public class Checkout {
 		}
 	}
 
-	private static void mapSelection() {
+	private static void mapSelection(String region) {
 		Utils.logger("Awaiting google maps");
 		
 		BrowserActions.waitForElement(MAP_SEARCH_FIELD);
@@ -125,7 +131,7 @@ public class Checkout {
 		Utils.logger("Map loaded successfully");
 		Utils.logger("Selecting location on map");
 		
-		BrowserActions.input(MAP_SEARCH_FIELD, Defaults.mapRegion);
+		BrowserActions.input(MAP_SEARCH_FIELD, region);
 		BrowserActions.submit(MAP_SEARCH_FIELD);
 		BrowserActions.clickByOffset(MAP_WRAPPER, 400, 200);
 		BrowserActions.waitForElementClickable(CONFIRM_LOCATION_BUTTON);

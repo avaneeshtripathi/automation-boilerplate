@@ -5,8 +5,10 @@ import java.util.*;
 import org.testng.TestNG;
 import org.testng.xml.*;
 
+import helper.*;
+
 public class TESTNG_FACTORY {
-	public void runTestNGTest(Map<String,String> testngParams){
+	public void runTestNGTest(String browser){
 		//Create an instance on TestNG
 		TestNG myTestNG = new TestNG();
 
@@ -18,13 +20,18 @@ public class TESTNG_FACTORY {
 		//Create a list of XmlTests and add the XMLTest you created earlier to it.
 		List<XmlTest> myTests = new ArrayList<XmlTest>();
 		
-		// LOGIN STUFF STARTS HERE
-		XmlTest testLogin = createXmlTest("TestLogin", "test.Login", mySuite, testngParams);
-		myTests.add(testLogin);
-		
-		// SIGNUP STUFF STARTS HERE
-		XmlTest testSignup = createXmlTest("TestSignup", "test.Signup", mySuite, testngParams);
-		myTests.add(testSignup);
+		List <LinkedHashMap<String, String>> testCaseList = ExcelUtils.getTestCaseData(0);
+
+		for (LinkedHashMap<String, String> testCase:testCaseList) {
+			if (!testCase.get("execute").equalsIgnoreCase("yes")) {
+				continue;
+			}
+			Map<String, String> testngParams = new HashMap<String, String> ();
+			testngParams.put("browser", browser);
+			testngParams = setDynamicTestNgParams(testCase, testngParams);
+			XmlTest testName = createXmlTest(testCase.get("flow"), testCase.get("className"), mySuite, testngParams);
+			myTests.add(testName);
+		}
 
 		//add the list of tests to your Suite.
 		mySuite.setTests(myTests);
@@ -35,14 +42,15 @@ public class TESTNG_FACTORY {
 		
 		//Set the list of Suites to the testNG object you created earlier.
 		myTestNG.setXmlSuites(mySuites);
-		mySuite.setFileName("myTemp.xml");
-		myTestNG.run();
+		mySuite.setFileName("testng.xml");
 		
 		//Create physical XML file based on the virtual XML content
 		for(XmlSuite suite : mySuites) {
 			createXmlFile(suite);
 		}
-		System.out.println("File created successfully.");
+		Utils.logger("File created successfully.");
+		Utils.logger("Starting test execution");
+		myTestNG.run();
 	}
 	
 	private static XmlTest createXmlTest(String testName, String className, XmlSuite mySuite, Map<String, String> testngParams) {
@@ -78,18 +86,28 @@ public class TESTNG_FACTORY {
     		writer.flush();
     		writer.close();
     	} catch (IOException e) {
-    		System.out.println("Error creating XML File");
+    		Utils.logger("Error creating XML File");
     		e.printStackTrace();
     	}
+    }
+    
+    private static Map<String, String> setDynamicTestNgParams (LinkedHashMap<String, String> testCase, Map<String, String> testngParams) {
+    	Set<String> keys = testCase.keySet();
+    	for (String key:keys) {
+    		if(!key.startsWith("param:") || testCase.get(key) == null || testCase.get(key).toString() == "") {
+    			continue;
+    		}
+    		testngParams.put(key.replace("param:", ""), testCase.get(key));
+    	}
+    	return testngParams;
     }
    
     //Main Method
     public static void main (String args[]) {
+		ExcelUtils.setExcelFile();
+		ExcelUtils.setDefaultData();
+		
     	TESTNG_FACTORY tf = new TESTNG_FACTORY();
-
-    	//This Map can hold your TestNG Parameters.
-    	Map<String,String> testngParams = new HashMap<String,String> ();
-    	testngParams.put("browser", "chrome");
-    	tf.runTestNGTest(testngParams);
+    	tf.runTestNGTest("chrome");
     }
 }

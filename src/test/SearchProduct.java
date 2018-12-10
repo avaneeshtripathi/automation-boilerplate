@@ -15,7 +15,7 @@ public class SearchProduct {
         BrowserActions.launchApp(browser);
     }
     
-	private static void searchForProduct() {
+	private static void searchForProduct(String searchKeyword) {
 		Utils.logger("Searching Keyword: " + "munch");
 		
 		BrowserActions.input(HEADER_SEARCH_INPUT, "munch");
@@ -26,8 +26,9 @@ public class SearchProduct {
 	
 
 	@Test(priority=1)
-	public static void navigateToProduct() {
-		searchForProduct();
+    @Parameters("searchKeyword")
+	public static void navigateToProduct(String searchKeyword) {
+		searchForProduct(searchKeyword);
 		
 		Utils.logger("Awaiting product list");
 		

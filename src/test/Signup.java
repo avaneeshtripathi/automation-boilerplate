@@ -35,7 +35,7 @@ public class Signup {
 	}
 	
 	@Test(priority=1)
-	public void authenticate() {
+	public static void authenticate() {
 		navigateToSignup();
 		
 		Utils.logger("Initiating Signup");
