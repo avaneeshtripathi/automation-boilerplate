@@ -36,9 +36,9 @@ public class Checkout {
 	private static String orderNr = "";
 
 	@BeforeTest
-    @Parameters({"browser", "authentication", "searchKeyword"})
+    @Parameters({"authentication", "searchKeyword"})
     public void beforeTest(String browser, String authentication, String searchKeyword) {
-        BrowserActions.launchApp(browser);
+        BrowserActions.launchApp();
         if (authentication.equalsIgnoreCase("login")) {
             Login.authenticate();
         } else {
@@ -112,7 +112,7 @@ public class Checkout {
 	public void verifyOrder(String browser) {
 		Utils.logger("Navigating to orders for verification");
 		
-		BrowserActions.openUrl(browser, Defaults.App.get("accountAppUrl") + "orders/" + orderNr);
+		BrowserActions.openUrl(browser, Defaults.get("app", "accountAppUrl") + "orders/" + orderNr);
 		BrowserActions.waitForElement(ACCOUNT_ORDER_NR);
 		String verificationOrderNr = BrowserActions.getTextContent(ACCOUNT_ORDER_NR).replace("Order ", "");
 				
@@ -144,10 +144,10 @@ public class Checkout {
 	private static void saveAddressDetails() {
 		Utils.logger("Initiating address details submission");
 		
-		BrowserActions.input(PHONE_FIELD, Defaults.User.get("phone"));
-		BrowserActions.input(FIRSTNAME_FIELD, Defaults.User.get("firstName"));
-		BrowserActions.input(LASTNAME_FIELD, Defaults.User.get("lastName"));
-		BrowserActions.input(ADDRESS_FIELD, Defaults.User.get("address"));
+		BrowserActions.input(PHONE_FIELD, Defaults.get("user", "phone"));
+		BrowserActions.input(FIRSTNAME_FIELD, Defaults.get("user", "firstName"));
+		BrowserActions.input(LASTNAME_FIELD, Defaults.get("user", "lastName"));
+		BrowserActions.input(ADDRESS_FIELD, Defaults.get("user", "address"));
 		BrowserActions.click(ADDRESS_TYPE_RADIO);
 		BrowserActions.click(SUBMIT_BUTTON);
 		BrowserActions.waitForElement(CONTINUE_BUTTON);
@@ -164,10 +164,10 @@ public class Checkout {
 		Utils.logger("Initiating payment by card");
 		
 		BrowserActions.waitForElement(CC_NUMBER);
-		BrowserActions.input(CC_NUMBER, Defaults.Card.get("ccNumber"));
-		BrowserActions.input(CC_EXPIRY_MONTH, Defaults.Card.get("ccExpiryMonth"));
-		BrowserActions.input(CC_EXPIRY_YEAR, Defaults.Card.get("ccExpiryYear"));
-		BrowserActions.input(CC_CVV, Defaults.Card.get("ccCvv"));
+		BrowserActions.input(CC_NUMBER, Defaults.get("card", "ccNumber"));
+		BrowserActions.input(CC_EXPIRY_MONTH, Defaults.get("card", "ccExpiryMonth"));
+		BrowserActions.input(CC_EXPIRY_YEAR, Defaults.get("card", "ccExpiryYear"));
+		BrowserActions.input(CC_CVV, Defaults.get("card", "ccCvv"));
 		
 		Utils.logger("Submitting card details");
 	}

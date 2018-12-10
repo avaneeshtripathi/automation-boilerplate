@@ -23,7 +23,7 @@ public class Utils {
 	public static String getUniqueEmail(String baseEmail) {
 		  int index = baseEmail.indexOf('@');
 		  Date date = new Date();
-		  StringBuilder userEmail = new StringBuilder(Defaults.User.get("email"));
+		  StringBuilder userEmail = new StringBuilder(Defaults.get("user", "email"));
 		  userEmail.insert(index, "+" + date.getTime());
 		  return userEmail.toString();
 	}

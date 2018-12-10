@@ -34,12 +34,13 @@ public class BrowserActions {
         driver.navigate().refresh();
 	}
 	
-	public static void launchApp(String browser) {
+	public static void launchApp() {
+		String browser = Defaults.get("app", "browser");
 		Utils.logger("Reading default data from Excel sheet");
-		Utils.logger("Launching in " + browser + " at: " + Defaults.App.get("baseAppUrl"));
+		Utils.logger("Launching in " + browser + " at: " + Defaults.get("app", "baseAppUrl"));
 		
 		initialiseWebDriver(browser);
-		openUrl(browser, Defaults.App.get("baseAppUrl"));
+		openUrl(browser, Defaults.get("app", "baseAppUrl"));
 		setAuthCookieData();
 	}
 	

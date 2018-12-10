@@ -1,10 +1,7 @@
 package test;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import helper.*;
 
@@ -19,9 +16,8 @@ public class Signup {
 	private static By USER_INFO_BOX = By.cssSelector(".userIconContainer .userWrapper .userName");
 	
     @BeforeTest
-    @Parameters("browser")
-    public void beforeTest(String browser) {
-        BrowserActions.launchApp(browser);
+    public void beforeTest() {
+        BrowserActions.launchApp();
     }
     
 	private static void navigateToSignup() {
@@ -41,12 +37,12 @@ public class Signup {
 		Utils.logger("Initiating Signup");
 
 		BrowserActions.waitForElement(SIGNUP_EMAIL_FIELD);
-		String userEmail = Utils.getUniqueEmail(Defaults.User.get("email"));
-		String userPassword = Defaults.User.get("password");
+		String userEmail = Utils.getUniqueEmail(Defaults.get("user", "email"));
+		String userPassword = Defaults.get("user", "password");
 		BrowserActions.input(SIGNUP_EMAIL_FIELD, userEmail);
 		BrowserActions.input(SIGNUP_PASSWORD_FIELD, userPassword);
-		BrowserActions.input(SIGNUP_FIRSTNAME_FIELD, Defaults.User.get("firstName"));
-		BrowserActions.input(SIGNUP_LASTNAME_FIELD, Defaults.User.get("lastName"));
+		BrowserActions.input(SIGNUP_FIRSTNAME_FIELD, Defaults.get("user", "firstName"));
+		BrowserActions.input(SIGNUP_LASTNAME_FIELD, Defaults.get("user", "lastName"));
 		BrowserActions.click(SUBMIT_BUTTON);
 		BrowserActions.waitForElement(USER_INFO_BOX);
 		String userName = BrowserActions.getTextContent(USER_INFO_BOX).replace("Hala ", "");

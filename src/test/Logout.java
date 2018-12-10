@@ -10,9 +10,8 @@ public class Logout {
 	private static By LOGIN_EMAIL_FIELD = By.name("email");
 	
 	@BeforeTest
-    @Parameters("browser")
-    public void beforeTest(String browser) {
-        BrowserActions.launchApp(browser);
+    public void beforeTest() {
+        BrowserActions.launchApp();
 		Login.authenticate();
     }
 	
@@ -21,8 +20,8 @@ public class Logout {
 	public void logoutUser(String browser) {
 		Utils.logger("Initiating user logout");
 
-		if (!Defaults.App.get("baseAppUrl").equalsIgnoreCase(BrowserActions.getCurrentUrl())) {
-			BrowserActions.openUrl(browser, Defaults.App.get("baseAppUrl"));
+		if (!Defaults.get("app", "baseAppUrl").equalsIgnoreCase(BrowserActions.getCurrentUrl())) {
+			BrowserActions.openUrl(browser, Defaults.get("app", "baseAppUrl"));
 		}
 		
 		BrowserActions.waitForElement(HEADER_MENU);
@@ -33,7 +32,7 @@ public class Logout {
 		
 		Utils.logger("Logged out successfully");
 		Utils.logger("Signing off");
-		Utils.logger("Bye " + Defaults.User.get("firstName") + " :)");
+		Utils.logger("Bye " + Defaults.get("user", "firstName") + " :)");
 	}
 	
     @AfterTest

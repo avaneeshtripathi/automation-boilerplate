@@ -13,9 +13,8 @@ public class Login {
 	private static By USER_INFO_BOX = By.cssSelector(".userIconContainer .userWrapper .userName");
 	
     @BeforeTest
-    @Parameters("browser")
-    public void beforeTest(String browser) {
-        BrowserActions.launchApp(browser);
+    public void beforeTest() {
+        BrowserActions.launchApp();
     }
 
 	private static void navigateForLogin() {
@@ -35,8 +34,8 @@ public class Login {
 		Utils.logger("Initiating Login");
 		
 		BrowserActions.waitForElement(LOGIN_EMAIL_FIELD);
-		BrowserActions.input(LOGIN_EMAIL_FIELD, Defaults.User.get("email"));
-		BrowserActions.input(LOGIN_PASSWORD_FIELD, Defaults.User.get("password"));
+		BrowserActions.input(LOGIN_EMAIL_FIELD, Defaults.get("user", "email"));
+		BrowserActions.input(LOGIN_PASSWORD_FIELD, Defaults.get("user", "password"));
 		BrowserActions.click(SUBMIT_BUTTON);
 		BrowserActions.waitForElement(USER_INFO_BOX);
 		String userName = BrowserActions.getTextContent(USER_INFO_BOX).replace("Hala ", "");

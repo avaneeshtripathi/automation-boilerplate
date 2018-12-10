@@ -18,9 +18,9 @@ public class AddToCart {
 	private static By CART_PRODUCT_NAME = By.cssSelector(".cartItemsColumn .coreDetailsContainer .productName");
 	
 	@BeforeTest
-    @Parameters({"browser", "searchKeyword"})
-    public void beforeTest(String browser, String searchKeyword) {
-        BrowserActions.launchApp(browser);
+    @Parameters("searchKeyword")
+    public void beforeTest(String searchKeyword) {
+        BrowserActions.launchApp();
         SearchProduct.navigateToProduct(searchKeyword);
     }
 

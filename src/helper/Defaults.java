@@ -3,9 +3,9 @@ package helper;
 import java.util.LinkedHashMap;
 
 public class Defaults {
-	public static LinkedHashMap<String, String> User;
-	public static LinkedHashMap<String, String> Card;
-	public static LinkedHashMap<String, String> App;
+	private static LinkedHashMap<String, String> User;
+	private static LinkedHashMap<String, String> Card;
+	private static LinkedHashMap<String, String> App;
 	public static boolean preSavedAddresses = false;
 	
 	public static void set(String name, LinkedHashMap<String, String> data) {

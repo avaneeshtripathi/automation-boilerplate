@@ -10,9 +10,8 @@ public class SearchProduct {
 	private static By PRODUCT_DETAIL_WRAPPER = By.cssSelector(".coreProductDetails .primaryDetails");
 	
     @BeforeTest
-    @Parameters("browser")
-    public void beforeTest(String browser) {
-        BrowserActions.launchApp(browser);
+    public void beforeTest() {
+        BrowserActions.launchApp();
     }
     
 	private static void searchForProduct(String searchKeyword) {
