@@ -23,6 +23,7 @@ public class Checkout {
 	private static By SUBMIT_BUTTON = By.cssSelector(".footerButtonWrapper button");
 	private static By CONTINUE_BUTTON = By.xpath("//button [contains(.,'Continue')]");
 	
+	private static By PRE_SAVED_CARD = By.cssSelector(".paymentMethodWrapper.prepay .cardRowInner input");
 	private static By CC_NUMBER = By.id("ccNumber");
 	private static By CC_EXPIRY_MONTH = By.name("cardExpiryMonth");
 	private static By CC_EXPIRY_YEAR = By.name("cardExpiryYear");
@@ -163,13 +164,22 @@ public class Checkout {
 	private static void payByCard() {
 		Utils.logger("Initiating payment by card");
 		
-		BrowserActions.waitForElement(CC_NUMBER);
-		BrowserActions.input(CC_NUMBER, Defaults.get("card", "ccNumber"));
-		BrowserActions.input(CC_EXPIRY_MONTH, Defaults.get("card", "ccExpiryMonth"));
-		BrowserActions.input(CC_EXPIRY_YEAR, Defaults.get("card", "ccExpiryYear"));
-		BrowserActions.input(CC_CVV, Defaults.get("card", "ccCvv"));
+		BrowserActions.waitForOneOfElements(CC_NUMBER, PRE_SAVED_CARD);
 		
-		Utils.logger("Submitting card details");
+		if (BrowserActions.checkElementExists(PRE_SAVED_CARD)) {
+			Utils.logger("Selecting pre-saved card");
+			
+			BrowserActions.click(PRE_SAVED_CARD);
+		} else {
+			Utils.logger("Adding new card details");
+			
+			BrowserActions.input(CC_NUMBER, Defaults.get("card", "ccNumber"));
+			BrowserActions.input(CC_EXPIRY_MONTH, Defaults.get("card", "ccExpiryMonth"));
+			BrowserActions.input(CC_EXPIRY_YEAR, Defaults.get("card", "ccExpiryYear"));
+			BrowserActions.input(CC_CVV, Defaults.get("card", "ccCvv"));
+			
+			Utils.logger("Submitting card details");
+		}
 	}
 	
 	private static void payByCash() {
