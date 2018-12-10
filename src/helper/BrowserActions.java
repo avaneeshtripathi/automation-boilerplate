@@ -15,17 +15,15 @@ public class BrowserActions {
 	
 	// BROWSER UTILITIES
 	private static void initialiseWebDriver(String browser) {
-		if (driver == null) {
-			Utils.logger("Initialising Web Driver");
-			if (browser.equalsIgnoreCase("firefox")) {
-				System.setProperty("webdriver.gecko.driver", "drivers/geckodriver");
-				driver = new FirefoxDriver();
-			} else {
-				System.setProperty("webdriver.chrome.driver", "drivers/chromedriver");
-				driver = new ChromeDriver();
-			}
-			Utils.logger("Web Driver Initialised");
+		Utils.logger("Initialising Web Driver");
+		if (browser.equalsIgnoreCase("firefox")) {
+			System.setProperty("webdriver.gecko.driver", "drivers/geckodriver");
+			driver = new FirefoxDriver();
+		} else {
+			System.setProperty("webdriver.chrome.driver", "drivers/chromedriver");
+			driver = new ChromeDriver();
 		}
+		Utils.logger("Web Driver Initialised");
 	}
 	
 	private static void setAuthCookieData() {

@@ -18,8 +18,7 @@ public class Login {
         BrowserActions.launchApp(browser);
     }
 
-	@Test(priority=1)
-	public static void navigateForLogin() {
+	private static void navigateForLogin() {
 		Utils.logger("Navigating for login");
 
 		BrowserActions.waitForElement(HEADER_MENU);
@@ -31,6 +30,8 @@ public class Login {
 	
 	@Test(priority=2)
 	public static void authenticate() {
+		navigateForLogin();
+		
 		Utils.logger("Initiating Login");
 		
 		BrowserActions.waitForElement(LOGIN_EMAIL_FIELD);

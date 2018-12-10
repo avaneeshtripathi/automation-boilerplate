@@ -13,7 +13,6 @@ public class Logout {
     @Parameters("browser")
     public void beforeTest(String browser) {
         BrowserActions.launchApp(browser);
-		Login.navigateForLogin();
 		Login.authenticate();
     }
 	

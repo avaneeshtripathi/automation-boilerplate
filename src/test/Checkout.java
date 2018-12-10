@@ -39,12 +39,9 @@ public class Checkout {
     @Parameters("browser")
     public void beforeTest(String browser) {
         BrowserActions.launchApp(browser);
-    	Login.navigateForLogin();
-    	Login.authenticate();
-    	SearchProduct.searchForProduct();
+        Login.authenticate();
     	SearchProduct.navigateToProduct();
-    	AddToCart.addProductToCart();
-    	AddToCart.navigateToCart();
+    	AddToCart.goToCart();
     }
     
 	@Test(priority=1)

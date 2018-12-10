@@ -24,8 +24,7 @@ public class Signup {
         BrowserActions.launchApp(browser);
     }
     
-	@Test(priority=1)
-	public void navigateToSignup() {
+	private static void navigateToSignup() {
 		Utils.logger("Navigating for signup");
 
 		BrowserActions.waitForElement(HEADER_MENU);
@@ -35,8 +34,10 @@ public class Signup {
 		Utils.logger("Navigated successfully");
 	}
 	
-	@Test(priority=2)
+	@Test(priority=1)
 	public void authenticate() {
+		navigateToSignup();
+		
 		Utils.logger("Initiating Signup");
 
 		BrowserActions.waitForElement(SIGNUP_EMAIL_FIELD);

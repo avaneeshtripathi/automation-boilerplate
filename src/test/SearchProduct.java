@@ -15,8 +15,7 @@ public class SearchProduct {
         BrowserActions.launchApp(browser);
     }
     
-	@Test(priority=1)
-	public static void searchForProduct() {
+	private static void searchForProduct() {
 		Utils.logger("Searching Keyword: " + "munch");
 		
 		BrowserActions.input(HEADER_SEARCH_INPUT, "munch");
@@ -26,17 +25,19 @@ public class SearchProduct {
 	}
 	
 
-	@Test(priority=2)
+	@Test(priority=1)
 	public static void navigateToProduct() {
+		searchForProduct();
+		
 		Utils.logger("Awaiting product list");
 		
 		BrowserActions.waitForElement(PRODUCT_CARD);
 		
 		Utils.logger("Product list loaded successfully");
 		
-		BrowserActions.clickRandomInList(PRODUCT_CARD);
+		String product = BrowserActions.clickRandomInList(PRODUCT_CARD).getText();
 		
-		Utils.logger("Navigating to randomly selected product");
+		Utils.logger("Navigating to randomly selected product:\n" + product);
 		Utils.logger("Awaiting product detail page");
 		
 		BrowserActions.waitForElement(PRODUCT_DETAIL_WRAPPER);
