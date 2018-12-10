@@ -38,7 +38,7 @@ public class Checkout {
 
 	@BeforeTest
     @Parameters({"authentication", "searchKeyword"})
-    public void beforeTest(String browser, String authentication, String searchKeyword) {
+    public void beforeTest(String authentication, String searchKeyword) {
         BrowserActions.launchApp();
         if (authentication.equalsIgnoreCase("login")) {
             Login.authenticate();

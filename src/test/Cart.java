@@ -74,7 +74,7 @@ public class Cart {
 		}
 	}
 	
-	@Test(priority=2, dependsOnMethods={"changeDeliveryCity"})
+	@Test(priority=2)
 	public static void moveToWishList() {
 		Utils.logger("Moving item to wishlist");
 		
@@ -108,7 +108,7 @@ public class Cart {
 		}
 	}
 	
-	@Test(priority=3, dependsOnMethods={"moveToWishList"})
+	@Test(priority=3)
 	public static void moveToCart() {
 		Utils.logger("Moving item to cart");
 		
@@ -137,7 +137,7 @@ public class Cart {
 		}
 	}
 	
-	@Test(priority=4, dependsOnMethods={"moveToCart"})
+	@Test(priority=4)
 	public static void removeFromCart() {
 		Utils.logger("Removing item from cart");
 		
@@ -161,7 +161,7 @@ public class Cart {
 		}
 	}
 	
-	@Test(priority=5, dependsOnMethods={"removeFromCart"})
+	@Test(priority=5)
     @Parameters("searchKeyword")
 	public static void removeFromWishlist(String searchKeyword) {
 		Utils.logger("Removing item from wishlist");

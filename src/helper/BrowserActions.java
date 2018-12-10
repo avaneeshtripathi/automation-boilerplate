@@ -42,7 +42,7 @@ public class BrowserActions {
 		
 		initialiseWebDriver(browser);
 		openUrl(browser, Defaults.get("app", "baseAppUrl"));
-		setAuthCookieData();
+//		setAuthCookieData();
 	}
 	
 	public static void openUrl(String browser, String url){

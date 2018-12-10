@@ -16,6 +16,7 @@ public class TESTNG_FACTORY {
 		XmlSuite mySuite = new XmlSuite();
 		mySuite.setName("Suite");
 		mySuite.setParallel(XmlSuite.ParallelMode.NONE);
+		mySuite.setPreserveOrder(true);
 		
 		//Create a list of XmlTests and add the XMLTest you created earlier to it.
 		List<XmlTest> myTests = new ArrayList<XmlTest>();
@@ -30,6 +31,7 @@ public class TESTNG_FACTORY {
 			testngParams.put("browser", browser);
 			testngParams = setDynamicTestNgParams(testCase, testngParams);
 			XmlTest testName = createXmlTest(testCase.get("flow"), testCase.get("className"), mySuite, testngParams);
+			testName.setParallel(XmlSuite.ParallelMode.NONE);
 			myTests.add(testName);
 		}
 
@@ -59,7 +61,7 @@ public class TESTNG_FACTORY {
 		myTest.setName(testName);
 		
 		// Set the thread count for execution
-		myTest.setThreadCount(1);
+//		myTest.setThreadCount(1);
 		
 		// Execute the test classes in order
 		myTest.setPreserveOrder(true);
