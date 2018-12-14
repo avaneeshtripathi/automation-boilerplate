@@ -4,8 +4,7 @@ import java.util.Date;
 
 public class Utils {
 	public static void logger(String text) {
-		System.out.println(text);
-		System.out.println("========================================================");
+		System.out.println(">> " + text);
 	}
 	
 	public static int getRandomUpto(int max){

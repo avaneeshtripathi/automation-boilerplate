@@ -6,7 +6,7 @@ import helper.*;
 
 public class SearchProduct {
 	private static By HEADER_SEARCH_INPUT = By.id("searchBar");
-	private static By PRODUCT_CARD = By.cssSelector(".productList .productContainer .product");
+	private static By PRODUCT_CARD = By.cssSelector(".productListContainer .productListWrapper .productList .product");
 	private static By PRODUCT_DETAIL_WRAPPER = By.cssSelector(".coreProductDetails .primaryDetails");
 	
     @BeforeTest

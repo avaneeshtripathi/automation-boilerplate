@@ -81,35 +81,21 @@ public class Cart {
 	public static void moveToWishList() {
 		Utils.logger("Moving item to wishlist");
 		
-		LinkedHashMap<String, Integer> initialCount = new LinkedHashMap<String, Integer>();
-		LinkedHashMap<String, Integer> finalCount = new LinkedHashMap<String, Integer>();
-		initialCount = getCounts();
-		
+		String cartItemName = BrowserActions.getTextContent(CART_ITEM_HEADING);
 		if (showLogs) {
-			Utils.logger("Item in cart: " + BrowserActions.getTextContent(CART_ITEM_HEADING));
-			Utils.logger("Initial count:\nCart: " + initialCount.get("cart")
-				+ "\nHeader cart icon: " + initialCount.get("headerCart")
-				+ "\nWishlist: " + initialCount.get("wishlist")
-				+ "\nHeader wishlist icon: " + initialCount.get("headerWishlist"));
+			Utils.logger("Item in cart: " + cartItemName);
 		}
 		
 		BrowserActions.click(MOVE_TO_WISHLIST);
 		BrowserActions.waitForElement(WISHLIST_ITEM_HEADING);
-		finalCount = getCounts();
+		String wishlistItemName = BrowserActions.getTextContent(WISHLIST_ITEM_HEADING);
 		
 		if (showLogs) {
-			Utils.logger("Item in wishlist: " + BrowserActions.getTextContent(WISHLIST_ITEM_HEADING));
-			Utils.logger("Final count:\nCart: " + finalCount.get("cart")
-				+ "\nHeader cart icon: " + finalCount.get("headerCart")
-				+ "\nWishlist: " + finalCount.get("wishlist")
-				+ "\nHeader wishlist icon: " + finalCount.get("headerWishlist"));
-
-			
-			if (finalCount.get("cart") < initialCount.get("cart")
-					&& finalCount.get("wishlist") > initialCount.get("wishlist")) {
+			Utils.logger("Item in wishlist: " + wishlistItemName);
+			if (wishlistItemName.equalsIgnoreCase(cartItemName)) {
 				Utils.logger("Item successfully moved to wishlist");
 			} else {
-				Utils.logger("Move to wishlist failed.");
+				Utils.logger("Move to wishlist failed");
 			}
 		}
 	}
@@ -117,32 +103,20 @@ public class Cart {
 	@Test(priority=3)
 	public static void moveToCart() {
 		Utils.logger("Moving item to cart");
-		
-		LinkedHashMap<String, Integer> initialCount = new LinkedHashMap<String, Integer>();
-		LinkedHashMap<String, Integer> finalCount = new LinkedHashMap<String, Integer>();
-		initialCount = getCounts();
 
-		Utils.logger("Item in wishlist: " + BrowserActions.getTextContent(WISHLIST_ITEM_HEADING));
-		Utils.logger("Initial count:\nCart: " + initialCount.get("cart")
-			+ "\nHeader cart icon: " + initialCount.get("headerCart")
-			+ "\nWishlist: " + initialCount.get("wishlist")
-			+ "\nHeader wishlist icon: " + initialCount.get("headerWishlist"));
+		String wishlistItemName = BrowserActions.getTextContent(WISHLIST_ITEM_HEADING);
+		Utils.logger("Item in wishlist: " + wishlistItemName);
 		
 		BrowserActions.click(MOVE_TO_CART);
 		BrowserActions.waitForElement(CART_ITEM_HEADING);
-		finalCount = getCounts();
+		String cartItemName = BrowserActions.getTextContent(CART_ITEM_HEADING);
 
-		Utils.logger("Item in cart: " + BrowserActions.getTextContent(CART_ITEM_HEADING));
-		Utils.logger("Final count:\nCart: " + finalCount.get("cart")
-			+ "\nHeader cart icon: " + finalCount.get("headerCart")
-			+ "\nWishlist: " + finalCount.get("wishlist")
-			+ "\nHeader wishlist icon: " + finalCount.get("headerWishlist"));
+		Utils.logger("Item in cart: " + cartItemName);
 		
-		if (finalCount.get("cart") > initialCount.get("cart")
-				&& finalCount.get("wishlist") < initialCount.get("wishlist")) {
+		if (cartItemName.equalsIgnoreCase(wishlistItemName)) {
 			Utils.logger("Item successfully moved to cart");
 		} else {
-			Utils.logger("Move to cart failed.");
+			Utils.logger("Move to cart failed");
 		}
 	}
 	
@@ -150,26 +124,12 @@ public class Cart {
 	public static void removeFromCart() {
 		Utils.logger("Removing item from cart");
 
-		LinkedHashMap<String, Integer> initialCount = new LinkedHashMap<String, Integer>();
-		LinkedHashMap<String, Integer> finalCount = new LinkedHashMap<String, Integer>();
-		initialCount = getCounts();
-
 		Utils.logger("Item in cart: " + BrowserActions.getTextContent(CART_ITEM_HEADING));
-		Utils.logger("Initial count:\nCart: " + initialCount.get("cart")
-			+ "\nHeader cart icon: " + initialCount.get("headerCart"));
 		
 		BrowserActions.click(REMOVE_FROM_CART);
 		BrowserActions.waitForElement(START_SHOPPING_BUTTON);
-		finalCount = getCounts();
 		
-		Utils.logger("Final count:\nCart: " + finalCount.get("cart")
-			+ "\nHeader cart icon: " + finalCount.get("headerCart"));
-		
-		if (finalCount.get("cart") < initialCount.get("cart")) {
-			Utils.logger("Item successfully removed from cart");
-		} else {
-			Utils.logger("Removal from cart failed");
-		}
+		Utils.logger("Item successfully removed from cart");
 	}
 	
 	@Test(priority=5)
@@ -183,26 +143,13 @@ public class Cart {
     	moveToWishList();
 
 		BrowserActions.waitForElement(REMOVE_FROM_WISHLIST);
-		LinkedHashMap<String, Integer> initialCount = new LinkedHashMap<String, Integer>();
-		LinkedHashMap<String, Integer> finalCount = new LinkedHashMap<String, Integer>();
-		initialCount = getCounts();
 
 		Utils.logger("Item in wishlist: " + BrowserActions.getTextContent(WISHLIST_ITEM_HEADING));
-		Utils.logger("Initial count:\nWishlist: " + initialCount.get("wishlist")
-			+ "\nHeader wishlist icon: " + initialCount.get("headerWishlist"));
 		
 		BrowserActions.click(REMOVE_FROM_WISHLIST);
 		BrowserActions.waitForElement(START_SHOPPING_BUTTON);
-		finalCount = getCounts();
 		
-		Utils.logger("Final count:\nWishlist: " + finalCount.get("wishlist")
-			+ "\nHeader wishlist icon: " + finalCount.get("headerWishlist"));
-		
-		if (finalCount.get("wishlist") < initialCount.get("wishlist")) {
-			Utils.logger("Item successfully removed from wishlist");
-		} else {
-			Utils.logger("Removal from wishlist failed");
-		}
+		Utils.logger("Item successfully removed from wishlist");
 	}
 	
     @AfterTest
