@@ -2,13 +2,18 @@ package test;
 
 import java.io.*;
 import java.util.*;
-import org.testng.TestNG;
+
+import org.testng.*;
 import org.testng.xml.*;
 
 import helper.*;
 
 public class TESTNG_FACTORY {
+	@SuppressWarnings("deprecation")
 	public void runTestNGTest(String browser){
+		// Create instance of TestNG listener
+		TestListenerAdapter tla = new TestListenerAdapter();
+		
 		//Create an instance on TestNG
 		TestNG myTestNG = new TestNG();
 
@@ -52,6 +57,7 @@ public class TESTNG_FACTORY {
 		}
 		Utils.logger("File created successfully.");
 		Utils.logger("Starting test execution");
+		myTestNG.addListener(tla);
 		myTestNG.run();
 	}
 	
