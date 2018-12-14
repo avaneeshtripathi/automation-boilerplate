@@ -56,9 +56,8 @@ public class TESTNG_FACTORY {
 			createXmlFile(suite);
 		}
 		Utils.logger("File created successfully.");
-		Utils.logger("Starting test execution");
 		myTestNG.addListener(tla);
-		myTestNG.run();
+//		myTestNG.run();
 	}
 	
 	private static XmlTest createXmlTest(String testName, String className, XmlSuite mySuite, Map<String, String> testngParams) {

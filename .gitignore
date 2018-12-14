@@ -1,4 +1,5 @@
 /bin/
+.~lock.test-data.xlsx#
 /test-output/
 .DS_Store
 testng.xml

@@ -13,13 +13,16 @@ public class Cart {
 	private static By HEADER_CART_ICON = By.cssSelector("header.siteHeader .cartIconContainer div");
 	private static By HEADER_WISHLIST_ICON = By.cssSelector("header.siteHeader .counterIcon span.counter");
 	private static By CART_ITEM = By.cssSelector(".cartItemsColumn .cartCtr .cartItem");
+	private static By CART_ITEM_HEADING = By.cssSelector(".cartItemsColumn .cartCtr .productName");
 	private static By WISHLIST_ITEM = By.cssSelector(".cartItemsColumn .wishlistCtr .cartItem");
+	private static By WISHLIST_ITEM_HEADING = By.cssSelector(".cartItemsColumn .wishlistCtr .productName");
 	private static By SHIPPING_PANEL_TRIGGER = By.cssSelector(".shippingLocationContainer .panelTrigger");
 	private static By SHIPPING_PANEL_CITY = By.cssSelector(".optionsPanelContainer.open ul button");
 	private static By MOVE_TO_WISHLIST = By.xpath("//button [contains(.,'Move to Wishlist')]");
 	private static By MOVE_TO_CART = By.xpath("//button [contains(.,'Move to Cart')]");
 	private static By REMOVE_FROM_CART = By.xpath("//div[contains(@class,'cartCtr')]//button[contains(.,'Remove')]");
 	private static By REMOVE_FROM_WISHLIST = By.xpath("//div[contains(@class,'wishlistCtr')]//button[contains(.,'Remove')]");
+	private static By START_SHOPPING_BUTTON = By.xpath("//button[contains(.,'Start Shopping')]");
 	
 	private static boolean showLogs = true;
 	
@@ -83,6 +86,7 @@ public class Cart {
 		initialCount = getCounts();
 		
 		if (showLogs) {
+			Utils.logger("Item in cart: " + BrowserActions.getTextContent(CART_ITEM_HEADING));
 			Utils.logger("Initial count:\nCart: " + initialCount.get("cart")
 				+ "\nHeader cart icon: " + initialCount.get("headerCart")
 				+ "\nWishlist: " + initialCount.get("wishlist")
@@ -90,9 +94,11 @@ public class Cart {
 		}
 		
 		BrowserActions.click(MOVE_TO_WISHLIST);
+		BrowserActions.waitForElement(WISHLIST_ITEM_HEADING);
 		finalCount = getCounts();
 		
 		if (showLogs) {
+			Utils.logger("Item in wishlist: " + BrowserActions.getTextContent(WISHLIST_ITEM_HEADING));
 			Utils.logger("Final count:\nCart: " + finalCount.get("cart")
 				+ "\nHeader cart icon: " + finalCount.get("headerCart")
 				+ "\nWishlist: " + finalCount.get("wishlist")
@@ -115,15 +121,18 @@ public class Cart {
 		LinkedHashMap<String, Integer> initialCount = new LinkedHashMap<String, Integer>();
 		LinkedHashMap<String, Integer> finalCount = new LinkedHashMap<String, Integer>();
 		initialCount = getCounts();
-		
+
+		Utils.logger("Item in wishlist: " + BrowserActions.getTextContent(WISHLIST_ITEM_HEADING));
 		Utils.logger("Initial count:\nCart: " + initialCount.get("cart")
 			+ "\nHeader cart icon: " + initialCount.get("headerCart")
 			+ "\nWishlist: " + initialCount.get("wishlist")
 			+ "\nHeader wishlist icon: " + initialCount.get("headerWishlist"));
 		
 		BrowserActions.click(MOVE_TO_CART);
+		BrowserActions.waitForElement(CART_ITEM_HEADING);
 		finalCount = getCounts();
-		
+
+		Utils.logger("Item in cart: " + BrowserActions.getTextContent(CART_ITEM_HEADING));
 		Utils.logger("Final count:\nCart: " + finalCount.get("cart")
 			+ "\nHeader cart icon: " + finalCount.get("headerCart")
 			+ "\nWishlist: " + finalCount.get("wishlist")
@@ -140,15 +149,17 @@ public class Cart {
 	@Test(priority=4)
 	public static void removeFromCart() {
 		Utils.logger("Removing item from cart");
-		
+
 		LinkedHashMap<String, Integer> initialCount = new LinkedHashMap<String, Integer>();
 		LinkedHashMap<String, Integer> finalCount = new LinkedHashMap<String, Integer>();
 		initialCount = getCounts();
-		
+
+		Utils.logger("Item in cart: " + BrowserActions.getTextContent(CART_ITEM_HEADING));
 		Utils.logger("Initial count:\nCart: " + initialCount.get("cart")
 			+ "\nHeader cart icon: " + initialCount.get("headerCart"));
 		
 		BrowserActions.click(REMOVE_FROM_CART);
+		BrowserActions.waitForElement(START_SHOPPING_BUTTON);
 		finalCount = getCounts();
 		
 		Utils.logger("Final count:\nCart: " + finalCount.get("cart")
@@ -170,15 +181,18 @@ public class Cart {
     	SearchProduct.navigateToProduct(searchKeyword);
     	AddToCart.goToCart();
     	moveToWishList();
-		
+
+		BrowserActions.waitForElement(REMOVE_FROM_WISHLIST);
 		LinkedHashMap<String, Integer> initialCount = new LinkedHashMap<String, Integer>();
 		LinkedHashMap<String, Integer> finalCount = new LinkedHashMap<String, Integer>();
 		initialCount = getCounts();
-		
+
+		Utils.logger("Item in wishlist: " + BrowserActions.getTextContent(WISHLIST_ITEM_HEADING));
 		Utils.logger("Initial count:\nWishlist: " + initialCount.get("wishlist")
 			+ "\nHeader wishlist icon: " + initialCount.get("headerWishlist"));
 		
 		BrowserActions.click(REMOVE_FROM_WISHLIST);
+		BrowserActions.waitForElement(START_SHOPPING_BUTTON);
 		finalCount = getCounts();
 		
 		Utils.logger("Final count:\nWishlist: " + finalCount.get("wishlist")
