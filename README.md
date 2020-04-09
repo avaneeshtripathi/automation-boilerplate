@@ -35,10 +35,15 @@ Boilerplate - Automation Testing (Eclipse + Selenium)
 5. Create a package in your project `automationFramework`
 	> Right click on Project name > New > Package (automationFramework) > Finish
 
-6. Install TestNG. We can again get it installed from eclipse marketplace:
-	> Help > Eclipse Marketplace > (Search TestNG) Select TestNG for Eclipse > Install and Finish
-
-	This should also import a directory of TestNG Libraries in root of the project.
+6. Install TestNG. We can again get it installed following the below steps:
+	```
+	> Help > Install New Software... > Add
+	> Enter Name
+	> Paste the url https://dl.bintray.com/testng-team/testng-eclipse-release/ to Work with: text field and press enter
+	> Next > Follow installation steps
+	> Restart Eclipse
+	```
+And we are done.
 
 7. If not imported, import the libraries manually.
 	> Right click on Project name > Properties > JAVA Build Path > Libraries > Add Library > Select TestNG > Next > Finish > Apply and Close
